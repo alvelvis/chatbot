@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  font-family: 'Roboto', 'Oxygen',
+  font-family: 'Open Sans', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, Helvetica,
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,11 +32,11 @@ span {
 }
 
 .chat {
-	height: 300px;
-	width: 50vw;
+	height: 70vh;
+	width: 450px;
 	display: flex;
 	flex-direction: column;
-  justify-content: center;
+    justify-content: center;
 	align-items: center;
 } 
 
@@ -54,7 +54,7 @@ input {
 .messages {
 	display: flex;
 	flex-direction: column;
-	overflow: scroll;
+	overflow: auto;
 	height: 90%;
 	width: 100%;
 	background-color: white;
@@ -68,18 +68,34 @@ input {
 }
 
 .bot {
-	font-family: Consolas, 'Courier New', Menlo, source-code-pro, Monaco,  
+	font-family: "Open Sans", Consolas, 'Courier New', Menlo, source-code-pro, Monaco,  
 	monospace;
+	background-color: #F7DFC7;
+}
+
+.user {
+	background-color: #C6EAFB;
 }
 
 .avatar {
 	height: 25px;
 }
 
+.user .avatar {
+	margin-left: 10px;
+}
+
+.bot .avatar {
+	margin-right: 10px;
+}
+
 .response {
 	display: flex;
 	align-items: center;
-	margin: 1%;
+	margin: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius:5px;
 }
 
 
@@ -94,4 +110,10 @@ input {
 		width: 75vw;
 		margin: 10vw;
 	}
+}
+
+.write-this {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
 }
