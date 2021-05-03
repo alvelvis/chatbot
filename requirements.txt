@@ -4,3 +4,4 @@ numpy
 gensim
 wikipedia
 beautifulsoup4
+unidecode
