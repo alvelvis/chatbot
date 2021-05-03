@@ -5,3 +5,4 @@ gensim
 wikipedia
 beautifulsoup4
 unidecode
+python-Levenshtein
