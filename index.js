@@ -2,7 +2,7 @@ var timeout = 0;
 var delay = 500;
 var keywords = [];
 var typing = false;
-flask_http = (window.location.href.match(/127\.0\.0\.1/g)) ? "http://127.0.0.1:5000" : "https://alvelvis-chatbot.loca.lt";
+flask_http = (window.location.href.match(/127\.0\.0\.1/g)) ? "http://127.0.0.1:5000" : "http://alvelvis-chatbot.loca.lt";
 
 document.addEventListener("DOMContentLoaded", () => {
   const inputField = document.getElementById("input");
