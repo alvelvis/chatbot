@@ -10,7 +10,6 @@ import interrogar_UD
 import numpy as np
 from gensim.test.utils import datapath, get_tmpfile
 from gensim.models import Word2Vec
-import Levenshtein
 import pprint
 import unidecode
 import random
