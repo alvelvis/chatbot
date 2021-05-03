@@ -23,7 +23,7 @@ app = Flask(__name__)
 def remove_accents(word):
     return unidecode.unidecode(word)
 
-model = Word2Vec.load("Publico-Hibrido(Completo+NILC).txt.model")
+model = Word2Vec.load("publico-COMPLETO-100.txt.model")
 hybrid = model.wv
 
 contrast_corpus = "bosque-ud-2.6.conllu"
@@ -130,11 +130,10 @@ def api():
         
         # try to answer from "pensador"
         if not bot_response and most_awkward_verb:
-            print("https://www.pensador.com/{}/".format(most_awkward_verb[0]))
             with urllib.request.urlopen("https://www.pensador.com/{}/".format(most_awkward_verb[0])) as f:
-                #html = f.read().decode('utf-8')
                 soup = BeautifulSoup(f, "html.parser")
-                bot_response = random.choice(soup.find_all("p", class_="frase")).get_text()
+                parse = soup.find_all("p", class_="frase")
+                bot_response = random.choice(parse).get_text() if parse else ""
         
         # no answer found
         if not bot_response:
