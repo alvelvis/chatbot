@@ -80,6 +80,7 @@ function addChat(input, product) {
         $('.write-this').unbind('click').click(function() { writeThis($(this).attr('reply')) });
         textToSpeech(product);
         typing = false;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
       }, delay);
       
     }, timeout);

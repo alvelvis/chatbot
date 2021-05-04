@@ -116,7 +116,7 @@ def api():
                     clean_token = token.lemma.lower()
                     if token.upos in ["NOUN", "PROPN"] and not clean_token in names and clean_token in frequency_of_important_words:
                         names.append(clean_token)
-                    if token.upos in ["VERB"] and not clean_token in verbs and clean_token in frequency_of_important_words:
+                    if (token.upos in ["VERB"] or token.deprel in ["cop"]) and not clean_token in verbs and clean_token in frequency_of_important_words:
                         verbs.append(clean_token)
             most_awkward_name = sorted(names, key=lambda x: frequency_of_important_words[x])
             most_awkward_verb = sorted(verbs, key=lambda x: frequency_of_important_words[x])
