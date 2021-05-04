@@ -2,7 +2,7 @@ var timeout = 0;
 var delay = 500;
 var keywords = [];
 var typing = false;
-flask_http = (window.location.href.match(/127\.0\.0\.1/g)) ? "http://127.0.0.1:5000" : "http://alvelvis-chatbot.loca.lt";
+flask_http = (window.location.href.match(/127\.0\.0\.1/g)) ? "http://127.0.0.1:5000" : "http://alvelvis-chatbot.ejemplo.me/";
 
 document.addEventListener("DOMContentLoaded", () => {
   const inputField = document.getElementById("input");
@@ -13,17 +13,21 @@ document.addEventListener("DOMContentLoaded", () => {
       output(input);
     }
   });
-  addChat("", "Olá! Me pergunte sobre algo que eu respondo.");
-  addChat("", "Quer saber tudo o que eu faço?");
 
-  $.post(flask_http, {api_response: "keywords"}, function(data){
-    keywords = data.api_response;
-  });
-
+  $.ajax({
+    url: flask_http,
+    method: 'POST',
+    data: {api_response: 'keywords'},
+    success: function(data){
+      keywords = data.api_response;
+      addChat("", "Olá! Me pergunte sobre algo que eu respondo.");
+      addChat("", "Quer saber tudo o que eu faço?");
+  }});
+  
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const q = urlParams.get('q')
-  if (q) { input.value = decodeURI(q) };  
+  if (q) { input.value = decodeURI(q) };
 
 });
 
