@@ -69,7 +69,7 @@ for resp, pattern in linguistic_patterns.items():
 print(json.dumps(linguistic_patterns, indent=4, ensure_ascii=False))
 
 responses = {
-    'functions': "Ainda não tenho uma lista de funcionalidades, me desculpe..."
+    'functions': "Ainda não tenho uma lista de funcionalidades, me desculpe...",
 }
 
 app_dict = {

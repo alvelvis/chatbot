@@ -4,6 +4,8 @@ var keywords = [];
 var typing = false;
 flask_http = (window.location.href.match(/127\.0\.0\.1/g)) ? "http://127.0.0.1:5000" : "https://alvelvis-chatbot.ejemplo.me/";
 
+const messagesContainer = document.getElementById("messages");
+
 document.addEventListener("DOMContentLoaded", () => {
   const inputField = document.getElementById("input");
   inputField.addEventListener("keydown", (e) => {
@@ -22,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
       keywords = data.api_response;
       addChat("", "Olá! Me pergunte sobre algo que eu respondo.");
       addChat("", "Quer saber tudo o que eu faço?");
-  }});
+    },
+  })
+  .fail(function(){
+    output_type("Opa! Parece que fui desligado da tomad...");
+  });  
   
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -36,9 +42,7 @@ function output(input) {
   window.history.pushState({}, "", window.location.href.split("/chatbot")[0] + "/chatbot/?q=" + encodeURI(input));
 }
 
-function addChat(input, product) {
-  const messagesContainer = document.getElementById("messages");
-    
+function addChat(input, product) {    
   if (input.trim().length > 0) {
     let userDiv = document.createElement("div");
     userDiv.id = "user";
@@ -51,42 +55,44 @@ function addChat(input, product) {
   $.post(flask_http, {'input': product.length > 0 ? "" : input}, function(data){
     timeout = timeout + delay;
     setTimeout(() => {
-      typing = true;
-      let botDiv = document.createElement("div");
-      let botImg = document.createElement("img");
-      let botText = document.createElement("span");
-      botDiv.id = "bot";
-      botImg.src = "bot-mini.png";
-      botImg.className = "avatar";
-      botDiv.className = "bot response";
-      botText.innerText = "Digitando...";
-      botDiv.appendChild(botText);
-      botDiv.appendChild(botImg);
-      messagesContainer.appendChild(botDiv);
-      // Keep messages at most recent
-      messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
-           
-      product = product.length > 0 ? product : data.bot_response;
-      
-      // Fake delay to seem "real"
-      setTimeout(() => {
-        timeout = timeout - delay
-        botText.innerText = `${product}`;
-        for (kw of keywords) {
-          if (botText.innerText.toLowerCase().indexOf(kw[0].toLowerCase()) != -1) {
-            botText.innerHTML = botText.innerHTML.replace(kw[0], `<a reply="${kw[1]}" class="write-this">${kw[0]}</a>`)
-          }
-        }
-        $('.write-this').unbind('click').click(function() { writeThis($(this).attr('reply')) });
-        textToSpeech(product);
-        typing = false;
-        messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
-      }, delay);
-      
+      output_type(!input.length ? product : data.bot_response)      
     }, timeout);
-  });
+  })
 }
 
 function writeThis(data) {
   output(data);
 };
+
+function output_type(product){
+  typing = true;
+  let botDiv = document.createElement("div");
+  let botImg = document.createElement("img");
+  let botText = document.createElement("span");
+  botDiv.id = "bot";
+  botImg.src = "bot-mini.png";
+  botImg.className = "avatar";
+  botDiv.className = "bot response";
+  botText.innerText = "Digitando...";
+  botDiv.appendChild(botText);
+  botDiv.appendChild(botImg);
+  messagesContainer.appendChild(botDiv);
+  // Keep messages at most recent
+  messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
+        
+  //product = product.length > 0 ? product : product.bot_response;
+  // Fake delay to seem "real"
+  setTimeout(() => {
+    timeout = timeout - delay
+    botText.innerText = `${product}`;
+    for (kw of keywords) {
+      if (botText.innerText.toLowerCase().indexOf(kw[0].toLowerCase()) != -1) {
+        botText.innerHTML = botText.innerHTML.replace(kw[0], `<a reply="${kw[1]}" class="write-this">${kw[0]}</a>`)
+      }
+    }
+    $('.write-this').unbind('click').click(function() { writeThis($(this).attr('reply')) });
+    textToSpeech(product);
+    typing = false;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
+  }, delay);
+}
